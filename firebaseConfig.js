@@ -20,5 +20,10 @@ export{
     app,
     auth,
     db,
-    storage
+    storage,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+
 }
