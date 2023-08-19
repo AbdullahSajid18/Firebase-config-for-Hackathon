@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <nav class="navbar container">
+        <a href="#" class="logo">Personal Blogging App</a>
+        <input type="checkbox" id="toggler" />
+        <label for="toggler"><i class="ri-menu-line"></i></label>
+        <div class="menu">
+          <ul class="list">
+            <li><a href="../index.html">Logout</a></li>
+          </ul>
+        </div>
+    </nav>
+    <div class="readers">
+        <h1 style="margin-right: 80%;">Profile</h1>
+    </div>
+   
+    <section class="informationBoxContainer">
+        <section class="InfoBox">
+            <img src="../Assets/dummy.jpeg" alt="">
+            <input type="text" id="firstName" placeholder="firstName"> 
+            <input type="text" id="lastName" placeholder="lastName">
+            <input type="email" id="email" placeholder="email">
+            <input type="password" id="oldPassword" placeholder=" old password">
+            
+            <input type="password" id="password" placeholder="New Password"  required minlength="8"  required pattern="^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$">
+            <input type="password" id="repeatPassword" placeholder="Repeat Password"  required minlength="8"  required pattern="^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$">
+
+            <input type="file" placeholder="profilePicture" id="profilePicture">
+        
+            <button class="UpdatePassword" id="updateProfile">Update Profile</button>
+        </section>
+    </section>
+
+    <a href="../Dashboard/index.html" style="text-decoration: none;">Dashboard</a>
+
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

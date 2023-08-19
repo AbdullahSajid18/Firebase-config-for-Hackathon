@@ -1,83 +1,71 @@
-import {auth, app, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, doc, setDoc} from './firebaseConfig.js'
+import { auth, db, onAuthStateChanged, signOut, getDoc, doc, collection, addDoc, getDocs, deleteDoc, updateDoc, serverTimestamp, orderBy, query } from "../firebaseConfig.js"
 
-let loginEmail = document.getElementById('loginEmail');
-let loginPassword = document.getElementById('loginPassword');
+const blogContainer = document.querySelector('.blogContainer');
+console.log(blogContainer);
 
-// buttons
-let loginBtn = document.getElementById('loginBtn');
+createPost()
 
+async function createPost() {
+    blogContainer.innerHTML = ``;
+    const postsCollectionRef = collection(db, "blogs");
 
+    // Create a query to order the documents by "time" field in descending order
+    const sortedQuery = query(postsCollectionRef, orderBy("timestamp", "asc")); // "desc"
+    const querySnapshot = await getDocs(sortedQuery);
+    querySnapshot.forEach(async (doc) => {
+        let postId = doc.id
+        // doc.data() is never undefined for query doc snapshots
+        const { BlogContent, BlogTitle, author, timestamp } = doc.data()
 
-function loginHandler() {
+        const gettingUserData = await getAuthData(author)
 
-signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    if(user){
-        window.location.href ='./dashboard/index.html';
-    }
-    alert("user logged in")
-  })
-  .catch((error) => {
-      const errorCode = error.code;
-    const errorMessage = error.message;
-    // console.log(errorMessage)
-    alert("user not found")
-  });
-};
-
-loginBtn.addEventListener('click',loginHandler);
-
-// signup
-
-let firstName = document.getElementById('firstName');
-let lastName = document.getElementById('lastName');
-let signEmail = document.getElementById('signEmail');
-let signPassword = document.getElementById('signPassword');
-let phoneNumber = document.getElementById('phoneNumber');
-let dateTime = document.getElementById('dateTime');
-
-// buttons
-let signupBtn = document.getElementById('signupBtn');
-
-async function signUpnHandler() {
-    try {
-    const response =  await createUserWithEmailAndPassword(auth, signEmail.value, signPassword.value)
-
-   alert("user registered")
-   
-   if(response.user){
-        adddata(response.user.uid)
-
-
-}
-  }
- catch (error) {
-    const errorMessage = error.message;
-    console.log(errorMessage)
-    
-}};
-
-
-async function adddata(uid){
-    try {
-        const docRef = await setDoc(doc(db, "users", uid), {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            email: signEmail.value,
-            password: signPassword.value,
-            phnNumber : phoneNumber.value,
-            dOB : dateTime.value,
-            id : uid     
-        });
-
-        // console.log(firstName,lastName,signEmail,signPassword,dateTime);
-        console.log("Document written with ID: ", docRef.uid);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-    
+        let div = document.createElement('div')
+        div.setAttribute('class', 'postConatiner postInputContainer my-3')
+        div.setAttribute('onclick', `seeUserBlogHandler('${postId}', '${author}')`)
+        div.innerHTML = `<div class="d-flex justify-content-between ">
+                    <div class="authorsDetails d-flex align-items-center">
+                        <div class="post-header-container d-flex align-items-center">
+                            <div class="image">
+                                <img src=${gettingUserData?.profilePicture || "../assets/dummy.jpeg"}
+                                    alt="" class="img-fluid rounded mx-auto d-block">
+                            </div>
+                            <div class="userName-id ms-2">
+                                <h4 class="mb-1 blogTitle" style="color: #868686;">
+                                    ${BlogTitle}</h4>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <h6 class="mb-1 username">${gettingUserData.firstName} ${gettingUserData.lastName}</h6>
+                                    <h6 class="mb-0 ms-2">${moment(timestamp.toDate()).fromNow()}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blogDetails">
+                    <p id="post-text" class="mt-2">${BlogContent}</p>
+                </div>`
+        blogContainer.prepend(div)
+    });
 }
 
-signupBtn.addEventListener('click',signUpnHandler);
+function seeUserBlogHandler(postId, authUid){
+    console.log(postId, authUid)
+    const postAndUser = {
+        userPostId: postId,
+        userAuthUid: authUid
+    }
+    localStorage.setItem('userBlog', JSON.stringify(postAndUser))
+    window.location.href = '../seeUser/seeUser.html'
+}
+
+async function getAuthData(id) {
+    const docRef = doc(db, "users", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data()
+    } else {
+        console.log("No such document!");
+    }
+}
+
+window.seeUserBlogHandler = seeUserBlogHandler;

@@ -12,7 +12,11 @@ body {
     /* padding: 50px; */
 }
 /* General styles end */
-
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+}
 .navbar {
     display: flex;
     flex-wrap: wrap;
@@ -37,20 +41,64 @@ body {
 .navbar label {
     display: none;
 }
-
-body {
-    background-color: rgb(233, 233, 233);
+.readers{
+    background-color: #fff;
+    display: flex;
+    height: 150px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.postConatiner {
-    padding: 24px !important;
-    width: 80%;
-    background-color: white;
+.informationBoxContainer{
+    background-color: aqua;
+    width: 60%;
+    margin-left: 140px;
+    margin-top: 50px;
+}
+
+.InfoBox{
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.username{
+    margin-left: 10px;
+}
+
+.password{
+    margin-left: 10px;
+}
+
+.InfoBox img{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+}
+
+.InfoBox input{
+    max-width: 200px;
+    height: 40px;
+    margin: 10px;
+    border: 1px solid #b9b5b5;
     border-radius: 10px;
+    padding: 5px;
 }
 
-.image {
-    width: 100px;
+.UpdatePassword{
+    width: 150px;
+    margin-left: 12px;
+    margin-top: 10px;
+    background: #7749f8;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
 }
 
 

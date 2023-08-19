@@ -12,7 +12,11 @@ body {
     /* padding: 50px; */
 }
 /* General styles end */
-
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+}
 .navbar {
     display: flex;
     flex-wrap: wrap;
@@ -37,23 +41,6 @@ body {
 .navbar label {
     display: none;
 }
-
-body {
-    background-color: rgb(233, 233, 233);
-}
-
-.postConatiner {
-    padding: 24px !important;
-    width: 80%;
-    background-color: white;
-    border-radius: 10px;
-}
-
-.image {
-    width: 100px;
-}
-
-
 @media screen and (max-width: 600px) {
     .menu {
         width: 100%;
@@ -73,4 +60,25 @@ body {
     #toggler:checked ~ .menu {
         max-height:100%;
 }
+}
+
+body{
+    background-color: rgb(233, 233, 233);
+}
+.postConatinerBox{
+    padding: 24px !important;
+    width: 80%;
+    background-color: white;
+    border-radius: 10px;
+}
+.image {
+    width: 100px;
+}
+
+#post-text, .blogTitle {
+    word-wrap: break-word !important;
+}
+
+.loggedInUserName, .logoutBtn{
+    cursor: pointer;
 }
